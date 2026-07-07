@@ -10,6 +10,7 @@ import {
   import { TextInput } from 'react-native-web';
   import  Header  from '../../components/Header'
   import Footer from '../../components/Footer'
+import { lazy } from 'react';
 
   const API_URL = "http://localhost:3000"
  
@@ -96,7 +97,7 @@ import {
     }
   }
  return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.body}>
         { /*=========== TOPO (HEADER) =============*/}
         { /*=========== Área de cabeçalho com logo e menu =============*/}
         <Header ativo = "contato"> </Header>
@@ -107,18 +108,21 @@ import {
         { /* Card branco que envolve o form*/}
           <View style={styles.cardContato}>
             <Text style={styles.tituloPagina}>
-              Entre em contato
+              Fale Conosco
             </Text>
             <Text style={styles.subtitulo}>
               Envie sua mensagem para nossa equipe
             </Text>
 
-            <TextInput style ={styles.input}
+          <Text style={styles.label}>Seu nome:</Text>
+
+            <TextInput style ={styles.input} 
                       placeholder='Digite seu nome'
                       value={nome} // exibe o estado da variavel
                       onChangeText={setNome} // atualiza o estado variavel
             ></TextInput>
 
+          <Text style={styles.label}>Seu e-mail:</Text>
 
             <TextInput style ={styles.input}
                       placeholder='Digite seu e-mail'
@@ -126,6 +130,8 @@ import {
                       value={email} // exibe o estado da variavel
                       onChangeText={setEmail} // atualiza o estado variavel
             ></TextInput>
+
+          <Text style={styles.label}>Mensagem</Text>
 
             <TextInput style ={styles.input}
                       placeholder='Digite sua mensagem'
@@ -162,6 +168,11 @@ import {
 
 const styles = StyleSheet.create(
   {
+     body:{
+      flexGrow: 1,
+      justifyContent: 'space-between'
+    },
+
     topo: {
       backgroundColor: '#21282A',
       padding:20,
@@ -176,7 +187,7 @@ const styles = StyleSheet.create(
     },
 
     logoP2: {
-      color:'#e7c78a',
+      color:'#c8a96a',
       fontSize:24,
       fontWeight: 'bold',
     },
@@ -188,7 +199,7 @@ const styles = StyleSheet.create(
     },
 
     menuItem: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontWeight: 'bold',
     },
 
@@ -202,7 +213,7 @@ const styles = StyleSheet.create(
     },
 
     cardContato: {
-      backgroundColor: '#ffffff',
+      backgroundColor: '#21282A',
       padding: 25,
       borderRadius: 10,
       elevation: 3,
@@ -216,7 +227,7 @@ const styles = StyleSheet.create(
     },
 
     tituloPagina: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontSize: 28,
       fontWeight: 'bold',
       textAlign: 'center',
@@ -226,11 +237,17 @@ const styles = StyleSheet.create(
     subtitulo: {
       textAlign: 'center',
       marginBottom: 10,
-      color: '#555'
+      color: '#ffffff'
+    },
+
+    label:{
+      color: '#ffffff',
+      padding: 6
     },
 
     input: {
-      borderColor: '#222',
+      color: '#707070',
+      borderColor: '#4e4e4e',
       borderWidth: 1,
       borderRadius: 8,
       padding: 12,
@@ -240,14 +257,14 @@ const styles = StyleSheet.create(
     },
 
     btnEnviar: {
-      backgroundColor: '#e7c78a',
+      backgroundColor: '#c8a96a',
       paddingVertical: 12,
       borderRadius: 8,
       alignItems:'center',
     },
 
     textoBtn: {
-      color: 'white',
+      color: '#222',
       fontWeight: 'bold',
       fontSize: 16,
     },
@@ -281,13 +298,13 @@ const styles = StyleSheet.create(
     },
 
     linkRodape: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontWeight: 'bold',
       textDecorationLine: 'none'
     },
 
     tituloDestaque : {
-      color: '#1a4db3',
+      color: '#c8a96a',
       fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',

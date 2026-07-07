@@ -8,47 +8,49 @@ import {
   import { Link } from 'expo-router';
   import  Header  from '../../components/Header'
   import Footer from '../../components/Footer'
+  import { LinearGradient } from 'expo-linear-gradient';
+
+
  
 export default function Index() {
  return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.body}>
         { /*=========== TOPO (HEADER) =============*/}
         { /*=========== Área de cabeçalho com logo e menu =============*/}
         <Header ativo = "inicio"></Header>
-
+  
         { /*=========== HERO =============*/}
         { /* Seção principal (banner incial) */}
-        <View style={styles.hero}>
+        <LinearGradient
+          style={styles.hero}
+          colors={['#c8a96a', '#8b6f3d']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
           <View style={styles.heroContent}>
-        { /* Título Principal */}
-          <Text style={styles.heroTitulo}> Bem-vindo ao Café Central </Text>
-         
-          { /* Descrição */}
-          <Text style={styles.descricao}>
-            Desfrute dos melhores cafés e doces da cidade 
+            {/* Título Principal */}
+            <Text style={styles.heroTitulo}>Bem-vindo ao Café Central</Text>
+
+            {/* Descrição */}
+            <Text style={styles.descricao}>
+              Desfrute dos melhores cafés e doces da cidade
             </Text>
 
-          { /* Aviso sobre Login */}
-          <Text style={styles.avisoLogin}>
-            
-          </Text>
+            {/* Botão principal */}
+            <Link href="/login">
+              <TouchableOpacity style={styles.btnPrimario}>
+                <Text style={styles.textoBotaoPri}>Fazer Login</Text>
+              </TouchableOpacity>
+            </Link>
 
-          { /* Botão principal */}
-          <Link href ='/login'>
-            <TouchableOpacity style= {styles.btnPrimario}>
-              <Text style= {styles.textoBotaoPri}>Fazer Login</Text>
-            </TouchableOpacity>
-          </Link>
-
-          { /* Botão secundário */}
-          <Link href ='/contato'>
-            <TouchableOpacity style= {styles.btnSecundario}>
-              <Text style= {styles.textoBotaoSec}>Fale Conosco</Text>
-            </TouchableOpacity>
-          </Link>
-
+            {/* Botão secundário */}
+            <Link href="/contato">
+              <TouchableOpacity style={styles.btnSecundario}>
+                <Text style={styles.textoBotaoSec}>Fale Conosco</Text>
+              </TouchableOpacity>
+            </Link>
           </View>
-        </View>
+        </LinearGradient>
 
         { /*=========== DESTAQUES =============*/}
         { /* Seção com benefícios da plataforma*/}
@@ -98,8 +100,15 @@ export default function Index() {
  );
 }
 
+
+
 const styles = StyleSheet.create(
   {
+     body:{
+      flexGrow: 1,
+      justifyContent: 'space-between'
+    },
+
     topo: {
       backgroundColor: '#21282A',
       padding:20,
@@ -114,7 +123,7 @@ const styles = StyleSheet.create(
     },
 
     logoP2: {
-      color:'#e7c78a',
+      color:'#c8a96a',
       fontSize:24,
       fontWeight: 'bold',
     },
@@ -126,7 +135,7 @@ const styles = StyleSheet.create(
     },
 
     menuItem: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontWeight: 'bold',
     },
 
@@ -142,9 +151,12 @@ const styles = StyleSheet.create(
       borderRadius:8,
       marginTop: 10,
     },
-
+    
     hero: {
-      backgroundColor: '#e7c78a',
+      width: '100%',
+      paddingVertical: 60,
+      paddingHorizontal: 20,
+      backgroundColor: '#c8a96a',
       textAlign: 'center',
       padding: 30,
       alignItems:'center',
@@ -189,7 +201,7 @@ const styles = StyleSheet.create(
       paddingHorizontal:10,
       paddingVertical: 20,
       borderRadius: 8,
-      borderColor: '#e7c78a',
+      borderColor: '#c8a96a',
       borderWidth: 2,
       marginTop: 10,
       minWidth:160,
@@ -229,12 +241,12 @@ const styles = StyleSheet.create(
     },
 
     card : {
-      backgroundColor: '#e7c78a',
+      backgroundColor: '#c8a96a',
       padding: 20,
       borderRadius: 8,
       marginBottom: 10,
       elevation: 3,
-      shadowColor: '#e7c78a',
+      shadowColor: '#c8a96a',
       shadowOpacity: 0.08,
       shadowRadius:4,
       textShadowOffset:{
@@ -272,7 +284,7 @@ const styles = StyleSheet.create(
     },
 
     linkRodape: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontWeight: 'bold',
       textDecorationLine: 'none'
     },

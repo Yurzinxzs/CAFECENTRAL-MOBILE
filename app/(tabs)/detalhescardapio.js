@@ -85,6 +85,11 @@ import {
   
   const styles = StyleSheet.create(
     {
+       body:{
+      flexGrow: 1,
+      justifyContent: 'space-between'
+    },
+    
       topo: {
         backgroundColor: '#1a4db3',
         padding: 20,

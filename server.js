@@ -33,7 +33,7 @@ const sessionConfig = {
     secret: process.env.SESSION_SECRET, // Chave secreta para assinar o COOKIE
     resave: false, // Não salva a sessão se não houve mudanças
     saveUninitialized: false, // Não cria sessão para usuários não logados (CORRIGIDO)
-    name: 'techeduca.sid', // Nome personalizado para o cookie da sessão
+    name: 'cafecentral.sid', // Nome personalizado para o cookie da sessão
     cookie : {
         httpOnly: true, // Impede acesso ao cookie via JavaScript (segurança)
         maxAge: 1000*60*60 // Tempo de vida: 1 hora em milisegundos
@@ -167,3 +167,11 @@ app.post("/contato",async (req,res)=>{
 app.listen(3000,()=>{
     console.log("Servidor rodando na porta 3000");
 })
+
+process.on("uncaughtException", (erro) => {
+    console.error("ERRO NÃO TRATADO:", erro);
+});
+
+process.on("unhandledRejection", (erro) => {
+    console.error("PROMISE REJEITADA SEM TRATAMENTO:", erro);
+});

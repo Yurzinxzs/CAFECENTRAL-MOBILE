@@ -11,7 +11,7 @@ import {
 
   export default function Sobre() { {/* Define e exporta o componente principal da tela */}
   return ( // O que está aqui dentro será exibido na tela
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.body}>
       {/* ============== TOPO (HEADER) ============== */}
       {/* ============== Área de cabeçalho com logo e menu ============== */}
       <Header ativo = "sobre"></Header>
@@ -45,6 +45,11 @@ import {
 
 const styles = StyleSheet.create(
   {
+     body:{
+      flexGrow: 1,
+      justifyContent: 'space-between'
+    },
+
     topo:{
       backgroundColor: '#21282A',
       padding: 20,
@@ -81,10 +86,11 @@ const styles = StyleSheet.create(
 
     sobre: {
       padding: 20,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#21282A',
     },
 
     titulo: {
+      color: '#c8a96a',
       fontSize: 26,
       fontWeight: 'bold',
       marginBottom: 15,
@@ -92,6 +98,7 @@ const styles = StyleSheet.create(
     },
 
     subtitulo: {
+      color: '#c8a96a',
       fontSize: 20,
       fontWeight: 'bold',
       marginTop: 20,
@@ -100,6 +107,7 @@ const styles = StyleSheet.create(
     },
 
     texto: {
+      color: '#ffffff',
       fontSize: 16,
       lineHeight: 24,
       textAlign: 'center',
@@ -111,8 +119,10 @@ const styles = StyleSheet.create(
     },
 
     itemLista: {
+      color: '#ffffff',
       fontSize: 16,
       marginBottom: 6,
+      fontWeight: 'bold',
     },
 
     rodape: {
@@ -123,19 +133,19 @@ const styles = StyleSheet.create(
     },
 
     textoRodape: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       textAlign: 'center',
       marginBottom: 8,
     },
 
     linkRodape: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontWeight: 'bold',
       textDecorationStyle: 'none',
     },
 
     tituloDestaque: {
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontSize: 24,
       fontWeight: 'bold',
       textAlign: 'center',

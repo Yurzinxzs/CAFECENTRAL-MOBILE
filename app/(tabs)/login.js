@@ -85,7 +85,7 @@ import {
   };
 
    return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.body}>
           { /*=========== TOPO (HEADER) =============*/}
           { /*=========== Área de cabeçalho com logo e menu =============*/}
            <Header ativo ="Login"></Header>
@@ -152,6 +152,11 @@ import {
 
 const styles = StyleSheet.create(
   {
+     body:{
+      flexGrow: 1,
+      justifyContent: 'space-between'
+    },
+
     topo: {
       backgroundColor: '#21282A',
       padding:20,
@@ -227,19 +232,19 @@ const styles = StyleSheet.create(
     linkAuth: {
       textAlign:'center',
       marginTop: 20,
-      color: '#222',
+      color: '#c8a96a',
       fontWeight: 'bold',
     },
 
     linkAuthDestaque: {
-      color:"#e7c78a",
+      color:"#D97706",
       fontWeight: 'bold',
       textAlign: 'center',
       marginTop: 5,
     },
 
     tituloAuth:{
-       color: '#e7c78a',
+       color: '#c8a96a',
        fontSize: 28,
        fontWeight: 'bold',
        textAlign: 'center',
@@ -249,7 +254,7 @@ const styles = StyleSheet.create(
     textoAuth: {
       textAlign: 'center',
       marginBottom: 20,
-      color: '#e7c78a',
+      color: '#c8a96a',
       fontSize: 16
     },
 
@@ -268,7 +273,7 @@ const styles = StyleSheet.create(
     },
 
     btnPrimario: {
-      backgroundColor: '#e7c78a',
+      backgroundColor: '#c8a96a',
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 8,

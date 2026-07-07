@@ -57,7 +57,7 @@ import {
   
  
    return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.body}>
           { /*=========== TOPO (HEADER) =============*/}
           { /*=========== Área de cabeçalho com logo e menu =============*/}
           <Header ativo = "cadarpio"></Header>
@@ -134,6 +134,11 @@ import {
  
   const styles = StyleSheet.create(
     {
+       body:{
+        flexGrow: 1,
+        justifyContent: 'space-between'
+      },
+
      topo: {
        backgroundColor: '#21282A',
        padding:20,
