@@ -95,7 +95,7 @@ import { lazy } from 'react';
       // Define o "estilo" da mensagem como erro
       setTipoMensagem("erro")
     }
-  }
+    }
  return (
     <ScrollView contentContainerStyle={styles.body}>
         { /*=========== TOPO (HEADER) =============*/}
