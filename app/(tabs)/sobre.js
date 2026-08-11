@@ -29,10 +29,16 @@ import {
 
               <Text style={styles.subtitulo}>Nossos Produtos</Text>
               <View style={styles.lista}>
-                <Text style={styles.itemLista}>• Qualidade</Text>
-                <Text style={styles.itemLista}>• Acolhimento</Text>
-                <Text style={styles.itemLista}>• Respeito </Text>
-              </View>
+                <View style={styles.card}>
+                  <Text style={styles.itemLista}>Qualidade</Text>
+                </View>
+                <View style={styles.card}>
+                  <Text style={styles.itemLista}>Acolhimento</Text>
+                </View>
+                <View style={styles.card}>
+                  <Text style={styles.itemLista}>Respeito</Text>
+                </View>
+</View>
           </View>
 
     {/* ============== RODAPÉ ============== */}
@@ -113,16 +119,25 @@ const styles = StyleSheet.create(
       textAlign: 'center',
     },
 
-    lista: {
+  lista: {
       marginTop: 10,
-      alignItems: 'center'
+      gap: 12,
+      width: '100%',
+    },
+
+    card: {
+      backgroundColor: '#2a2d33',
+      borderRadius: 14,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      width: "100%",
     },
 
     itemLista: {
-      color: '#ffffff',
+      color: "#ffffff",
       fontSize: 16,
-      marginBottom: 6,
       fontWeight: 'bold',
+      textAlign: 'center',
     },
 
     rodape: {
