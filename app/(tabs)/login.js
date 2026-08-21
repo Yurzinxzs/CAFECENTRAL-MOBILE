@@ -269,7 +269,7 @@ const styles = StyleSheet.create(
       borderColor: '#e7c78a',
       borderRadius: 6,
       fontSize: 16,
-      background: '#e7c78a'
+      backgroundColor: "#FFFFFF",
     },
 
     btnPrimario: {

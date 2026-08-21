@@ -1,177 +1,257 @@
 // Carrega as variáveis de ambiente ANTES de qualquer outra coisa
 require("dotenv").config();
-const express = require("express"); // Framework principal
-const cors = require("cors"); // Controle de origens
-const session = require("express-session"); // Gerenciamento de sessões
-const bcrypt = require("bcryptjs"); // Criptografia de senhas
-const conexao = require("./db.js"); // Pool de conexões MySQL
+
+const express = require("express");
+const cors = require("cors");
+const session = require("express-session");
+const bcrypt = require("bcryptjs");
+const conexao = require("./db.js");
 
 // Cria a instância do servidor Express
 const app = express();
 
-// Lista de origens permitidas para acessar a API
-    const listOrigins = [
-        "http://localhost:8081", // Expo no computador
-        "http://localhost:5501", // Live Server do VS Code
-        "http://127.0.0.1:5501", // Variação do Live Server
-        "https://Dudadesa.github.io" // Deploy no GitHub Pages
-    ];
-    app.use(cors({
-        origin: listOrigins, // Só aceita requisições dessas origens
-        credentials: true, // Permite envio de cookies de sessão
-        methods: ["GET","POST","PUT","DELETE","OPTIONS"], // Métodos HTTP permitidos
-        allowedHeaders: ["Content-Type","Authorization"] // Cabeçalhos aceitos
-    }));
+// Lista de origens permitidas
+const listOrigins = [
+    "http://localhost:8081",
+    "http://localhost:5501",
+    "http://127.0.0.1:5501",
+    "https://Dudadesa.github.io"
+];
+
+app.use(cors({
+    origin: listOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // Configurações da API
-app.use(express.json()); // Habilita leitura de dados JSON no corpo das requisições
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// Configuração do objeto sessão
+// Configuração da sessão
 const sessionConfig = {
-    secret: process.env.SESSION_SECRET, // Chave secreta para assinar o COOKIE
-    resave: false, // Não salva a sessão se não houve mudanças
-    saveUninitialized: false, // Não cria sessão para usuários não logados (CORRIGIDO)
-    name: 'cafecentral.sid', // Nome personalizado para o cookie da sessão
-    cookie : {
-        httpOnly: true, // Impede acesso ao cookie via JavaScript (segurança)
-        maxAge: 1000*60*60 // Tempo de vida: 1 hora em milisegundos
+    // Se SESSION_SECRET existir no .env, usa ele.
+    // Se não existir, usa esse segredo apenas para desenvolvimento local.
+    secret: process.env.SESSION_SECRET || "segredo-cafe-central-local",
+    resave: false,
+    saveUninitialized: false,
+    name: "cafecentral.sid",
+
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60
     }
 };
 
-// Ambiente Local X Produção
-if(process.env.NODE_ENV==="production"){
-    // Em produção (HTTPS): configurações mais rígidas
-    app.set("trust proxy",1); // Confia no proxy do servidor (Render,Railway..)
-    sessionConfig.cookie.sameSite="none"; // Permite cookir entre dominios diferentes
-    sessionConfig.cookie.secure = true; // Cookie só trafega em HTTPS
+// Ambiente local ou produção
+if (process.env.NODE_ENV === "production") {
+
+    app.set("trust proxy", 1);
+
+    sessionConfig.cookie.sameSite = "none";
+    sessionConfig.cookie.secure = true;
+
 } else {
-    // Em desenvolvimentro (HTTP local): configuração mais permissiva
-    sessionConfig.cookie.sameSite="lax"; // Proteção moderada CSRF
-    sessionConfig.cookie.secure = false; // Aceita HTTP (localhost não tem HTTPS)
-};
 
-app.use(session(sessionConfig)); // Aplica a configuração de sessão (CORRIGIDO)
+    sessionConfig.cookie.sameSite = "lax";
+    sessionConfig.cookie.secure = false;
+}
+
+app.use(session(sessionConfig));
 
 
+// ==========================================
+// ROTA PRINCIPAL
+// ==========================================
 
-// Primeira Rota (PRINCIPAL)
-app.get("/",(req,res)=>{
-    // O primeiro parametro é o caminho, o segundo é a função de callback
-    // req - objeto com os dados da requisição (vem do servidor)
-    // res - objeto para enviar a resposta (vai para o user/site/app)
-    res.send("API TechEduca Mobile funcionando"); 
+app.get("/", (req, res) => {
+    res.send("API TechEduca Mobile funcionando");
 });
 
-// Rota de Cadastro
-app.post("/cadastro", async (req,res) => {
-    try{ 
-        // 1 - Extrai os campos enviados no corpo da requisição (JSON)
-        const{nome,email,senha} = req.body
-        console.log(req.body);
-        
-        // 2 - Verifica se algum campo obrigatório está vazio
-        if(!nome || !email || !senha){
-            return res.status(400).json({erro: "Preencha todos os campos"})
+
+// ==========================================
+// ROTA DE CADASTRO
+// ==========================================
+
+app.post("/cadastro", async (req, res) => {
+
+    try {
+
+        const { nome, email, senha } = req.body;
+
+        console.log("Dados recebidos no cadastro:", req.body);
+
+        // Verifica campos obrigatórios
+        if (!nome || !email || !senha) {
+            return res.status(400).json({
+                erro: "Preencha todos os campos"
+            });
         }
 
-        // 3 - Consulta o banco: já existe usuário com esse e-mail
-        const [rows]  = await conexao.execute(
-            "SELECT id FROM tb_usuario WHERE email=?", [email]
+        // Verifica se o e-mail já existe
+        const [rows] = await conexao.execute(
+            "SELECT id FROM tb_usuario WHERE email = ?",
+            [email]
         );
 
-        if(rows.length>0){
-            return res.status(409).json({erro:"E-mail já cadastrado"})
-        };
-
-        // 4 - Criptografa a senha (10 = fator de custo hash)
-        const senhaHash = await bcrypt.hash(senha,10);
-
-        // 5 - Insere um novo usuário no banco com senha criptografada
-
-        const sql = `INSERT INTO tb_usuario
-                    (nome,email,senha)
-                    VALUES(?,?,?)`
-        conexao.execute(sql,[nome,email,senhaHash])
-        res.json({mensagem: "Usuário cadastrado com sucesso"}); 
-        
-    } catch(erro){
-        console.log(erro);
-        res.status(500).json({erro: "Erro ao cadastrar usuário!"})
-    }
-})
-
-// Rota de Login
-app.post("/login",async (req,res)=>{
-    try{
-        const {email,senha} = req.body || {};
-        
-        if(!email || !senha){
-            return res.status(400).json({erro: "Preencha todos os campos"})
+        if (rows.length > 0) {
+            return res.status(409).json({
+                erro: "E-mail já cadastrado"
+            });
         }
 
-        const sql = `SELECT * FROM tb_usuario
-                    WHERE email=?`
+        // Criptografa a senha
+        const senhaHash = await bcrypt.hash(senha, 10);
 
-        const [resultado] = await conexao.execute(sql,[email])
+        // Insere usuário
+        const sql = `
+            INSERT INTO tb_usuario
+            (nome, email, senha)
+            VALUES (?, ?, ?)
+        `;
 
-        
-        if(resultado.length === 0){
-            return res.status(401).json({mensagem: "Usuário ou senha inválidos!"})
-        }
+        await conexao.execute(sql, [
+            nome,
+            email,
+            senhaHash
+        ]);
 
-        const usuario = resultado[0]    
-            // pega o primeiro e único resultado do SQL
-        
-        const senhaCorreta = await bcrypt.compare(senha,usuario.senha) 
-            //compara a senha que usuário informou com a senha criptograda do banco
+        console.log("Usuário cadastrado com sucesso!");
 
-        
-        if(!senhaCorreta){
-            // senha hash for diferente da senha digitada
-            return res.status(401).json({erro: "Senha inválida"});
-            // 401 - acesso não autorizado
-        };
-    
-        res.json({mensagem: "Login realizado com sucesso!"});
-    
-    } catch(erro){
-        console.log("Erro no Login: ",erro)
-        res.status(500).json({erro: "Erro ao cadastrar usuário"})
+        res.json({
+            mensagem: "Usuário cadastrado com sucesso"
+        });
+
+    } catch (erro) {
+
+        console.error("Erro ao cadastrar usuário:", erro);
+
+        res.status(500).json({
+            erro: "Erro ao cadastrar usuário!"
+        });
     }
-})
-
-// Rota de Contato
-app.post("/contato",async (req,res)=>{
-    try{
-        const {nome, email, mensagem} = req.body
-
-        if(!nome || !email || !mensagem){
-            return res.status(400).json({erro: "Preencha todos os campos"});
-        }
-
-        const sql = `INSERT INTO tb_mensagem(nome,email,mensagem)
-                    VALUES(?,?,?)`
-                    
-        await conexao.execute(sql,[nome,email,mensagem])
-        res.json({mensagem: "Mensagem enviada com sucesso!"});
-
-    } catch(erro){
-        res.status(500).json({erro:"Erro ao enviar mensagem"});
-    }
-
-})
-
-// Iniciando o Servidor na porta 3000
-app.listen(3000,()=>{
-    console.log("Servidor rodando na porta 3000");
-})
-
-process.on("uncaughtException", (erro) => {
-    console.error("ERRO NÃO TRATADO:", erro);
 });
 
-process.on("unhandledRejection", (erro) => {
-    console.error("PROMISE REJEITADA SEM TRATAMENTO:", erro);
+
+// ==========================================
+// ROTA DE LOGIN
+// ==========================================
+
+app.post("/login", async (req, res) => {
+
+    try {
+
+        const { email, senha } = req.body || {};
+
+        if (!email || !senha) {
+            return res.status(400).json({
+                erro: "Preencha todos os campos"
+            });
+        }
+
+        const sql = `
+            SELECT *
+            FROM tb_usuario
+            WHERE email = ?
+        `;
+
+        const [resultado] = await conexao.execute(sql, [email]);
+
+        // Usuário não encontrado
+        if (resultado.length === 0) {
+            return res.status(401).json({
+                mensagem: "Usuário ou senha inválidos!"
+            });
+        }
+
+        const usuario = resultado[0];
+
+        // Compara a senha digitada com a senha criptografada
+        const senhaCorreta = await bcrypt.compare(
+            senha,
+            usuario.senha
+        );
+
+        if (!senhaCorreta) {
+            return res.status(401).json({
+                erro: "Senha inválida"
+            });
+        }
+
+        // Cria sessão
+        req.session.usuario = {
+            id: usuario.id,
+            nome: usuario.nome,
+            email: usuario.email
+        };
+
+        res.json({
+            mensagem: "Login realizado com sucesso!"
+        });
+
+    } catch (erro) {
+
+        console.error("Erro no Login:", erro);
+
+        res.status(500).json({
+            erro: "Erro ao realizar login"
+        });
+    }
+});
+
+
+// ==========================================
+// ROTA DE CONTATO
+// ==========================================
+
+app.post("/contato", async (req, res) => {
+
+    try {
+
+        const { nome, email, mensagem } = req.body;
+
+        if (!nome || !email || !mensagem) {
+            return res.status(400).json({
+                erro: "Preencha todos os campos"
+            });
+        }
+
+        const sql = `
+            INSERT INTO tb_mensagem
+            (nome, email, mensagem)
+            VALUES (?, ?, ?)
+        `;
+
+        await conexao.execute(sql, [
+            nome,
+            email,
+            mensagem
+        ]);
+
+        console.log("Mensagem enviada com sucesso!");
+
+        res.json({
+            mensagem: "Mensagem enviada com sucesso!"
+        });
+
+    } catch (erro) {
+
+        console.error("Erro ao enviar mensagem:", erro);
+
+        res.status(500).json({
+            erro: "Erro ao enviar mensagem"
+        });
+    }
+});
+
+
+// ==========================================
+// INICIANDO O SERVIDOR
+// ==========================================
+
+app.listen(3000, () => {
+    console.log("=================================");
+    console.log("Servidor rodando na porta 3000");
+    console.log("=================================");
 });
