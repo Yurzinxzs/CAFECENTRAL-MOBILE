@@ -132,12 +132,12 @@ import {
         marginBottom: 10,
       },
   
-      cursos: {
+      cardapios: {
         alignItems: 'center',
         backgroundColor: 'white'
       },
   
-      buscarCursos: {
+      buscarcardapios: {
         backgroundColor: 'white',
         textAlign: 'center',
         alignItems: 'center',
@@ -147,7 +147,7 @@ import {
         width: 140
       },
   
-      curso: {
+      cardapio: {
         backgroundColor: '#ffffff',
         padding: 15,
         borderRadius: 8,
@@ -155,14 +155,14 @@ import {
         elevation: 3,
       },
   
-      cursoTitulo: {
+      cardapioTitulo: {
         color: '#1a4db3',
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
       },
   
-      btnCurso: {
+      btncardapio: {
         backgroundColor: '#1a4db3',
         paddingVertical: 10,
         borderRadius: 6,
@@ -170,18 +170,18 @@ import {
         marginTop: 10
       },
   
-      textoBtnCurso: {
+      textoBtncardapio: {
         color: 'white',
         fontSize: 10,
         textAlign: 'center',
         width: 80
       },
   
-      cursoBtnLink: {
+      cardapioBtnLink: {
         textAlign: 'center'
       },
   
-      cursoImagem: {
+      cardapioImagem: {
         width: '100%',
         height: 140,
         backgroundColor: '#f5f5f5',
@@ -191,14 +191,14 @@ import {
   
       },
   
-      cursoDescricao: {
+      cardapioDescricao: {
         textAlign: 'center',
         color: 'black',
         fontSize: 16,
         margin: 10
       },
   
-      cursoCH: {
+      cardapioCH: {
         textAlign: 'center',
         color: 'black',
         fontSize: 16,

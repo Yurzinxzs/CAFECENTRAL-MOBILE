@@ -30,7 +30,7 @@ import {
                 'croissant.webp': require('../../assets/images/croissant.webp'),
                 'paodqueijo.jpg': require('../../assets/images/paodqueijo.jpg'),
             };
-    // Para cada curso em cardapiosJson:
+    // Para cada cardapio em cardapiosJson:
     //  Junta tudo de cardapios.json + caminho de cada imagem em imagenscardapios
     const cardapios = cardapioJson.map((cardapio) =>
     (
@@ -80,7 +80,7 @@ import {
               data={cardapiosFiltrados}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                // card do curso aqui
+                // card do cardapio aqui
                 <View style={styles.cardapio}>
 
                   <Text style={styles.cardapioTitulo}>
@@ -133,159 +133,157 @@ import {
   }
  
   const styles = StyleSheet.create(
-    {
-       body:{
-        flexGrow: 1,
-        justifyContent: 'space-between'
-      },
+  {
+     body:{
+      flexGrow: 1,
+      justifyContent: 'space-between'
+    },
 
-     topo: {
-       backgroundColor: '#21282A',
-       padding:20,
-       alignItems: 'center',
-       gap: 10,
-      },
-      
- 
-      logoP1: {
-        color:'#ffffff',
-        fontSize:24,
-        fontWeight: 'bold',
-      },
- 
-      logoP2: {
-        color:'#e7c78a',
-        fontSize:24,
-        fontWeight: 'bold',
-      },
-  
-      menu: {
-        marginTop: 10,
-        alignItems: 'center',
-        gap: 10,
-      },
- 
-      menuItem: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-      },
- 
-      ativo: {
-        color: '#e7c78a',
-      },
+   topo: {
+     backgroundColor: '#21282A',
+     padding:20,
+     alignItems: 'center',
+     gap: 10,
+    },
 
-      tituloPagina: {
-        fontSize: 28,
-        color: '#e7c78a',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 10,
-      },
 
-      cardapios: {
-        alignItems: 'center',
-        backgroundColor: 'white'
-      },
+    logoP1: {
+      color:'#ffffff',
+      fontSize:24,
+      fontWeight: 'bold',
+    },
 
-      buscarCardapios: {
-        backgroundColor: 'white',
-        textAlign: 'center',
-        alignItems: 'center',
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 8,
-        width: 140
-      },
- 
-      curso: {
-        backgroundColor: '#ffffff',
-        padding: 15,
-        borderRadius: 8,
-        marginBottom: 15,
-        elevation: 3,
-      },
+    logoP2: {
+      color:'#e7c78a',
+      fontSize:24,
+      fontWeight: 'bold',
+    },
 
-      cardapioTitulo:{
-        color: '#e7c78a',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-      },
+    menu: {
+      marginTop: 10,
+      alignItems: 'center',
+      gap: 10,
+    },
 
-      btnCurso: {
-        backgroundColor: '#e7c78a',
-        paddingVertical: 10,
-        borderRadius: 6,
-        alignItems:'center',
-        marginTop: 10
-      },
+    menuItem: {
+      color: '#ffffff',
+      fontWeight: 'bold',
+    },
 
-      textoBtnCardapio: {
-       backgroundColor: '#e7c78a', // ← cor do botão
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 6,
-        textAlign: 'center',
-        marginTop: 10,
-      },
+    ativo: {
+      color: '#e7c78a',
+    },
 
-      cardapioBtnLink: {
-        textAlign:'center'
-      },
+    tituloPagina: {
+      fontSize: 28,
+      color: '#e7c78a',
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 10,
+    },
 
-      cardapioImagem: {
-        width: '100%',
-        height: 140,
-        backgroundColor: '#f5f5f5',
-        borderRadius: 6,
-        marginBottom: 10,
-        resizeMode:'contain'
+    cardapios: {
+      alignItems: 'center',
+      backgroundColor: 'white'
+    },
 
-      },
+    buscarCardapios: {
+      backgroundColor: 'white',
+      textAlign: 'center',
+      alignItems: 'center',
+      borderColor: 'black',
+      borderWidth: 1,
+      borderRadius: 8,
+      width: 140
+    },
 
-      cardapioDescricao: {
-        textAlign: 'center',
-        color:'black',
-        fontSize: 16,
-        margin: 10
-      },
+    cardapio: {
+      backgroundColor: '#fdf6ec',
+      borderColor: '#c8a96a',
+      borderWidth: 1.5,
+      borderRadius: 16,
+      padding: 18,
+      marginBottom: 25,
+      width: 280,
+      alignItems: 'center',
+    },
 
-      cardapioR$: {
-        textAlign: 'center',
-        color:'black',
-        fontSize: 16,
-        margin: 10,
-        fontWeight: 'bold'
-      },
+    cardapioTitulo:{
+      color: '#e7c78a',
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
 
- 
-      rodape: {
-        backgroundColor: '#21282A',
-        padding: 20,
-        alignItems: 'center',
-        gap: 8,
-      },
- 
-      textoRodape: {
-        color : '#e7c78a',
-        textAlign: 'center',
-        marginBottom: 8,
-      },
- 
-      linkRodape: {
-        color: '#e7c78a',
-        fontWeight: 'bold',
-        textDecorationLine: 'none'
-      },
-  
-      tituloDestaque : {
-        color: '#e7c78a',
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20
-      }
-  
+    btnCardapio: {
+      backgroundColor: '#e7c78a',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 6,
+      alignItems:'center',
+      marginTop: 10,
+      width: '100%',
+    },
+
+    textoBtnCardapio: {
+      textAlign: 'center',
+      color: '#1a1a1a',
+      fontWeight: 'bold',
+    },
+
+    cardapioImagem: {
+      width: 240,
+      height: 140,
+      backgroundColor: '#f5f5f5',
+      borderRadius: 6,
+      marginBottom: 10,
+      resizeMode: 'cover',
+    },
+
+    cardapioR$: {
+      textAlign: 'center',
+      color:'#8b6f3d',
+      fontSize: 16,
+      margin: 10,
+      fontWeight: 'bold'
+    },
+
+    cardapioR$: {
+      textAlign: 'center',
+      color:'#e7c78a',
+      fontSize: 16,
+      margin: 10,
+      fontWeight: 'bold'
+    },
+
+
+    rodape: {
+      backgroundColor: '#21282A',
+      padding: 20,
+      alignItems: 'center',
+      gap: 8,
+    },
+
+    textoRodape: {
+      color : '#e7c78a',
+      textAlign: 'center',
+      marginBottom: 8,
+    },
+
+    linkRodape: {
+      color: '#e7c78a',
+      fontWeight: 'bold',
+      textDecorationLine: 'none'
+    },
+
+    tituloDestaque : {
+      color: '#e7c78a',
+      fontSize: 24,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 20
     }
 
-  )
+  }
+
+)
